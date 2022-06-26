@@ -71,3 +71,24 @@ If ACI = 0 Or settlement = maturity Then
 ACI = 100 * rate / freq
 
 End Function
+
+
+
+Function LOSS(settlement As Date, maturity As Date, rate, spots, notional, freq As Integer, _
+compound As Integer, fromdate As Date, R As Double, Optional basis As Integer)
+
+Dim price, A, y
+
+If fromdate <= maturity Then
+y = YearFrac(settlement, fromdate, basis)
+price = MYPRICE(settlement, maturity, rate, spots, notional, freq, compound, fromdate, basis)
+A = ACI(fromdate, maturity, rate, freq, basis)
+LOSS = price - R * (100 + A) / (1 + INTSPOT(spots, y) / compound) ^ (compound * y)
+Else
+LOSS = 0
+End If
+
+
+
+End Function
+
