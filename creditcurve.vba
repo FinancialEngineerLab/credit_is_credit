@@ -58,3 +58,16 @@ Loop
 
 End Function
 
+
+
+
+Function ACI(settlement As Date, maturity As Date, rate, freq As Integer, Optional basis As Integer)
+
+If settlement < maturity Then
+ACI = 100 * rate / freq * (1 - CoupDaysNc(settlement, maturity, freq, basis) / CoupDays(settlement, maturity, freq, basis))
+End If
+
+If ACI = 0 Or settlement = maturity Then
+ACI = 100 * rate / freq
+
+End Function
